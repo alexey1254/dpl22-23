@@ -5,11 +5,11 @@
 
 `alu 2` Ha hecho un fork del repositorio de `alu 1`, ha clonado el fork desde su cuenta de GitHub. Después de eso, ha creado una nueva rama llamada `custom-text` y ha modificado una linea del fichero index.html
 
-![primera imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-1.jpeg)
+![primera imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-1.png)
 
 Después de eso, `alu 2` ha hecho un `pull request` a `alu 1`
 
-![segunda imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-3.jpeg)
+![segunda imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-3.png)
 
 `alu 1` ha revisado el pull request en su maquina y ha dado el visto bueno, así que lo acepta.
 
@@ -34,11 +34,11 @@ Entonces, mientras tanto, `alu 2` crea una nueva rama llamada `cool-colors`, ah�
 color: darkgreen;
 ```
 
-![cuarta imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-4.jpeg)
+![cuarta imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-4.png)
 
 `alu 2` envía un pull request a `alu 1`
 
-![Quinta imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-5.jpeg)
+![Quinta imagen alex](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/alex-5.png)
 
 `alu 1` prueba el pull request de `alu 2` y quiere hacer un merge. Pero surge un conflicto. Este conflicto se soluciona cambiando la linea donde está el problema. Aceptando o denegando los `incoming changes`. Una vez hecho esto, se puede hacer el `merge`
 
