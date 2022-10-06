@@ -42,4 +42,4 @@ color: darkgreen;
 
 `alu 1` prueba el pull request de `alu 2` y quiere hacer un merge. Pero surge un conflicto. Este conflicto se soluciona cambiando la linea donde está el problema. Aceptando o denegando los `incoming changes`. Una vez hecho esto, se puede hacer el `merge`
 
-![Conflicto](img/jorge-5.jpeg)
+![Conflicto](img/jorge-5.jpeg
