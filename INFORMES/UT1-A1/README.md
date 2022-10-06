@@ -1,7 +1,7 @@
 # Trabajando con git
 
 `alu 1` Ha creado el repositorio y le ha puesto la licencia del MIT
-![Primera imagen jorge](img/jorge-1.jpeg)
+![Primera imagen jorge](https://github.com/alexey1254/dpl22-23/blob/main/INFORMES/UT1-A1/img/jorge-1.jpeg)
 
 `alu 2` Ha hecho un fork del repositorio de `alu 1`, ha clonado el fork desde su cuenta de GitHub. Después de eso, ha creado una nueva rama llamada `custom-text` y ha modificado una linea del fichero index.html
 
