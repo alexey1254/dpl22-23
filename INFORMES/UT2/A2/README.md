@@ -57,7 +57,7 @@ sudo apt install nginx -y
 - Con este comando instalamos Nginx, el argumento de -y es para decirle que si a que lo instale sin preguntar por espacio de almacenamiento.
 - En principio, nuestro servidor debería estar instalado en nuestro sistema. Podemos comprobarlo haciendo lo siguiente:
 
-~~~
+~~~shell
 alejandro@marte10:~$ sudo systemctl status nginx
 ● nginx.service - nginx - high performance web server
      Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
@@ -146,6 +146,7 @@ oct 24 18:31:45 marte10 systemd[1]: Started The PHP 8.2 FastCGI Process Manager.
 ~~~shell
 sudo gedit /etc/php/8.2/fpm/pool.d/www.conf
 ~~~
+
 - Editamos estas lineas:
 
 ~~~shell
@@ -184,17 +185,184 @@ nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 ~~~
 
-### Hasta aquí hemos terminado la instalación de Nginx. Vamos a implementar una página con php de una calculadora en la máquina virtual.
+### Hasta aquí hemos terminado la instalación de Nginx. Vamos a implementar una página con php de una calculadora en la máquina virtual
 
-- Lo primero, sería crear un enlace simbolico desde la ruta que nginx usa, hasta la raíz de nuestro proyecto.
+- Lo primero, sería crear un enlace simbolico desde la ruta que nginx usa para leer los archivos, hasta la raíz de nuestro proyecto.
 
 ~~~shell
 sudo ln -s <path/to/directory> /usr/share/nginx/html/
 ~~~
 
-- En la raíz de mi proyecto, tengo tres archivos. En el navegador, ponemos `localhost/calculadora/index.php`
+- En la raíz de mi proyecto, tengo tres archivos, los cuales serían:
+  - index.php
+  - style.css
+  - calculadora.png
+
+- En el navegador, ponemos `localhost/calculadora/index.php`
 
 ![CalcNativa](img/calculadoraNativa.png)
 
+[Aquí](src/index.php) puedes ver el código fuente.
 
 ## Dockerizado
+
+Ahora pasamos a hacerlo con Nginx dentro de docker. Para ello, *pausamos el servicio de Nginx* en nuestra máquina fisica para que no haya ningún conflicto con el Nginx de docker.
+
+En este caso, vamos a tener unos archivos de configuración de docker, pero antes de meternos en ello, veamos cómo he instalado docker.
+
+- Para instalarlo, hacemos lo siguiente:
+
+~~~shell
+$ sudo apt update 
+  ...
+$ sudo apt install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+~~~
+
+- Importamos la clave GPG del repositorio externo de docker con
+
+~~~shell
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg
+~~~
+
+- Añadimos el repositorio de docker:
+
+~~~shell
+echo \
+  "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+~~~
+
+- Hacemos `sudo apt update` para que nos actualice los repositorios y finalmente instalamos docker con algunos plugins.
+
+~~~shell
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+~~~
+
+Verificamos que docker está en marcha con `sudo systemctl status docker`
+
+~~~shell
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2022-10-25 10:41:56 WEST; 16min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 879 (dockerd)
+      Tasks: 10
+     Memory: 108.7M
+        CPU: 515ms
+     CGroup: /system.slice/docker.service
+             └─879 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+oct 25 10:41:54 marte10 dockerd[879]: time="2022-10-25T10:41:54.254404691+01:00" level=info msg="ccResolverW>
+oct 25 10:41:54 marte10 dockerd[879]: time="2022-10-25T10:41:54.254415206+01:00" level=info msg="ClientConn >
+oct 25 10:41:54 marte10 dockerd[879]: time="2022-10-25T10:41:54.731512377+01:00" level=info msg="[graphdrive>
+oct 25 10:41:54 marte10 dockerd[879]: time="2022-10-25T10:41:54.804595674+01:00" level=info msg="Loading con>
+oct 25 10:41:55 marte10 dockerd[879]: time="2022-10-25T10:41:55.266142461+01:00" level=info msg="Default bri>
+oct 25 10:41:55 marte10 dockerd[879]: time="2022-10-25T10:41:55.322129803+01:00" level=info msg="Loading con>
+oct 25 10:41:56 marte10 dockerd[879]: time="2022-10-25T10:41:56.007627368+01:00" level=info msg="Docker daem>
+oct 25 10:41:56 marte10 dockerd[879]: time="2022-10-25T10:41:56.010943278+01:00" level=info msg="Daemon has >
+oct 25 10:41:56 marte10 dockerd[879]: time="2022-10-25T10:41:56.092889375+01:00" level=info msg="API listen >
+oct 25 10:41:56 marte10 systemd[1]: Started Docker Application Container Engine.
+~~~
+
+- Como podemos ver, esta active (running).
+
+Después, quedaría un pequeño detalle, el cual sería para que nuestro usuario tenga privilegios para ejecutar docker con el siguiente comando.
+
+~~~shell
+sudo usermod -aG docker $USER
+~~~
+
+Para que nuestros cambios funcionen, debemos cerrar la sesión.
+
+### Eso sería todo en cuanto a la instalación de docker. Vamos a ver como podemos iniciar nuestra página web de calculadora dentro de docker
+
+![Calculadora dockerizada](img/calculadoraDockerizada.png)
+
+### Para hacer esto, vamos a la carpeta donde queramos que sea la raíz de nuestro proyecto y creamos lo siguiente
+
+~~~shell
+alejandro@marte10:~/Escritorio/calculadoraDocker$ tree
+.
+├── default.conf
+├── docker-compose.yml
+└── src
+    ├── calculadora.png
+    ├── index.php
+    └── style.css
+~~~
+
+Crearemos una carpeta llamada `src` donde irá nuestro código fuente, un archivo `default.conf` y otro llamado `docker-compose.yml`
+
+- Dentro de `default.conf` irá lo siguiente:
+
+~~~conf
+server {
+  server_name _;
+  index index.php index.html;
+
+  location ~ \.php$ {
+    fastcgi_pass php-fpm:9000;
+    include fastcgi_params;  # fichero incluido en la instalación
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  }
+}
+~~~
+
+- Dentro de `docker-compose.yml`:
+
+~~~yml
+version: "3.3"
+
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./src:/etc/nginx/html # "root" por defecto en Nginx
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+
+  php-fpm:
+    image: php:8-fpm
+    volumes:
+      - ./src:/etc/nginx/html
+~~~
+
+- Teniendo todo esto y la página dentro de la carpeta src, sólo quedaría iniciar nuestro contenedor con el siguiente comando:
+
+~~~docker
+alejandro@marte10:~/Escritorio/calculadoraDocker$ docker compose up
+[+] Running 2/0
+ ⠿ Container calculadoradocker-php-fpm-1  Created                          0.0s
+ ⠿ Container calculadoradocker-web-1      Created                          0.0s
+Attaching to calculadoradocker-php-fpm-1, calculadoradocker-web-1
+calculadoradocker-php-fpm-1  | [25-Oct-2022 10:12:01] NOTICE: fpm is running, pid 1
+calculadoradocker-php-fpm-1  | [25-Oct-2022 10:12:01] NOTICE: ready to handle connections
+calculadoradocker-web-1      | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+calculadoradocker-web-1      | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+calculadoradocker-web-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+calculadoradocker-web-1      | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+calculadoradocker-web-1      | 10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf differs from the packaged version
+calculadoradocker-web-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+calculadoradocker-web-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+calculadoradocker-web-1      | /docker-entrypoint.sh: Configuration complete; ready for start up
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: using the "epoll" event method
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: nginx/1.23.2
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: built by gcc 10.2.1 20210110 (Debian 10.2.1-6) 
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: OS: Linux 5.10.0-19-amd64
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: start worker processes
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: start worker process 28
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: start worker process 29
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: start worker process 30
+calculadoradocker-web-1      | 2022/10/25 10:12:01 [notice] 1#1: start worker process 31
+~~~
+
+- Para finalizar, vamos a nuestro navegador y escribimos `localhost`
+
+[Aquí](src/index.php) estaría el código fuente que es el mismo que el de la máquina local
