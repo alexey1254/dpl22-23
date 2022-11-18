@@ -23,6 +23,8 @@
 
 ### Instalación
 
+Antes que nada, me gustaría añadir que para que todo esto funcione, necesitamos instalar las build-essential con `sudo apt install -y build-essential`
+
 Voy a instalar el modulo *ngx_small_light* dinámicamente, para ello tengo que descargar el nginx en la versión actual que tengo instalada en el sistema. Para ello puedo usar el siguiente comando:
 
 ` curl -sL https://nginx.org/download/nginx-$(/sbin/nginx -v \
@@ -63,4 +65,31 @@ Finalmente un `make check` para ver que todo funciona bien y corra sus tests.
 
 Ahora, cruzo los dedos para que se me haga bien el `./configure` 🤞
 
-*Me da el mismo error, así que voy a ver en clase*
+No funcionó, estuve tiempo mirando, hasta que le pregunté al profesor. Lo solucionamos juntos. Me fuí a la carpeta de ImageMagick *descargada de github*, desinstalé este programa. También lo desinstalé desde el apt con los siguientes comandos:
+
+```
+    sudo make uninstall
+    sudo apt remove --purge -y imagemagick  libmagickwand-dev
+    sudo apt-get autoremove
+```
+
+Finalmente volví a instalar las dependencias.
+
+```
+sudo apt install -y imagemagick libpcre3 libpcre3-dev libmagickwand-dev
+```
+
+Después fuí a la carpeta del codigo fuente de *ngx_small_light* e hice un `./setup` para que vuelva a cargar todo y se pueda compilar cuando vaya a importarlo a Nginx. Finalmente fuí a la carpeta donde tenía descargado Nginx y lo compilé con los siguientes comandos:
+
+```
+./configure --add-dynamic-module=../ngx_small_light
+make modules
+sudo cp objs/ngx_http_small_light_module.so /etc/nginx/modules
+```
+
+![finInstalacion](screenshots/success.png)
+
+Ahora, vamos a usar este modulo en el fichero de configuración de Nginx. `sudo vi /etc/nginx/nginx.conf`
+
+
+
