@@ -32,13 +32,13 @@ Este comando, descarga la versión de nginx que tengo instalada en el sistema en
 
 Despues de esto, descargo el codigo fuente del módulo, en mi caso lo descargaré dentro de una carpeta dedicada para *GitHub*. Para ello hago:
 
-` git clone https://github.com/cubicdaiya/ngx_small_light.git `
+` git clone https://github.com/cubicdaiya/ngx_small_light.git /tmp/ngx_small_light`
 
 ![GitHub/modulo](screenshots/3.png)
 
 Ahora voy a la carpeta donde se descargó el Nginx y escribo lo siguiente
 
-`./configure --add-dynamic-module=$HOME/GitHub/ngx_small_light --modules-path=/usr/local/nginx/modules `
+`./configure --add-dynamic-module=../ngx_small_light`
 
 Pero me salta un error
 
@@ -46,5 +46,21 @@ Pero me salta un error
 
 Dice que no encuentra el compilador de c, vamos a instalarlo con `sudo apt install gcc`
 
+Después de haber hecho eso, me sale este error:
 
+![errorMagick](screenshots/errorMagick.png)
 
+Esto es debido a que pensaba que había instalado bien magick, así que lo que hice fué ir a la pagina oficial de [magick](http://www.imagemagick.org/script/install-source.php), me descargué el codigo fuente desde su GitHub y seguí los pasos para instalar esta dependencia. Me situé en la carpeta de magick y escribí lo siguiente:
+
+``` shell
+    ./configure
+    gmake
+    sudo gmake install
+    sudo ldconfig /usr/local/lib
+```
+
+Finalmente un `make check` para ver que todo funciona bien y corra sus tests.
+
+Ahora, cruzo los dedos para que se me haga bien el `./configure` 🤞
+
+*Me da el mismo error, así que voy a ver en clase*
