@@ -89,7 +89,28 @@ sudo cp objs/ngx_http_small_light_module.so /etc/nginx/modules
 
 ![finInstalacion](screenshots/success.png)
 
-Ahora, vamos a usar este modulo en el fichero de configuración de Nginx. `sudo vi /etc/nginx/nginx.conf`
+Ahora, vamos a usar este modulo en el fichero de configuración de Nginx. `sudo vi /etc/nginx/nginx.conf`.
 
+![Solucion](screenshots/5.png)
+
+    Después de investigar, lo solucionamos desinstalando nginx y volviendo a compilar el módulo,añadiendo el modulo justo después de la linea donde dice pid. 🫠
+
+Ahora, descargué unas imagenes para ponerlas en el servidor y las metí dentro de una carpeta llamada img.
+
+------------------------------
+Creo un host virtual `sudo vi /etc/hosts` y luego creo un archivo de configuración para crear una web, y apunto el root a una carpeta que tengo en mi home.
+Después de eso, creo un archivo de configuración de nginx con lo siguientes parametros, haciendo que el modulo solo actúe dentro de /img
+
+![6](screenshots/6.png)
+
+Reinicio la configuración de nginx y pruebo a ver en mi navegador.
+
+[Antes](http://images.alu7396.arkania.es/img/image02.jpg)
+
+![antes](screenshots/8.png)
+
+[Después](http://images.alu7396.arkania.es/img/image02.jpg?dw=200&dh=200)
+
+![despues](screenshots/7.png)
 
 
