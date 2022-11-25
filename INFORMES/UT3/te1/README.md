@@ -113,4 +113,12 @@ Reinicio la configuración de nginx y pruebo a ver en mi navegador.
 
 ![despues](screenshots/7.png)
 
+Finalmente me dispongo a crear una aplicación que manda peticiones al servidor por get. Se puede ver el código fuente del javascript pinchando [aquí](src/)
+
+![fin](./screenshots/terminado.png)
+
+Aqui vemos como genera las urls
+
+![enlaces](./screenshots/urls.png)
+
 
