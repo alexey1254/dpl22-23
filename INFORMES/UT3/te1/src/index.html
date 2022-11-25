@@ -18,7 +18,6 @@
     </header><br>
     <main class="container-fluid">
         <div class="row">
-            
             </div>
             <div class="col-2">
                 <form action="" method="get"  enctype="multipart/form-data">
@@ -43,16 +42,15 @@
                         <input type="number" class="form-control" id="desenfoque" aria-describedby="emailHelp">
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button onclick="verImagenes()" class="btn btn-primary">Generar</button>
+                        <button type="button" onclick="sendGET()" class="btn btn-primary">Generar</button>
                     </div>
                 </form>
 
             </div>
-            <div class="col">
-                <canvas id="imagenes">
-                    
-                </canvas>
+            <div class="col" id="contenedor">
+                <div id="contenedor-img"></div>
             </div>
+            
         </div>
 
     </main>
