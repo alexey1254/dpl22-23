@@ -1,6 +1,12 @@
 # ngx_small_light
 
-### aqui va el indice
+**Indice**
+
+1. [Dependencias](#dependencias)
+2. [Instalacion](#instalación)
+3. [Resultado](#resultado)
+
+---------------------------
 
 ## Antes de hacer nada, voy a mirar la documentación del modulo que voy a instalar
 
@@ -20,6 +26,8 @@
 ` $ sudo apt update && sudo apt install imagemagick libpcre3 libpcre3-dev libimlib2-dev -y `
 
 ![instalarDependencias](screenshots/2.png)
+
+---------------------------
 
 ### Instalación
 
@@ -112,6 +120,10 @@ Reinicio la configuración de nginx y pruebo a ver en mi navegador.
 [Después](http://images.alu7396.arkania.es/img/image02.jpg?dw=200&dh=200)
 
 ![despues](screenshots/7.png)
+
+--------------------------
+
+### Resultado
 
 Finalmente me dispongo a crear una aplicación que manda peticiones al servidor por get. Se puede ver el código fuente del javascript pinchando [aquí](src/)
 
