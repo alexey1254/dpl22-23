@@ -24,14 +24,17 @@ $postgre = pg_connect("host=$host port=$port dbname=$dbname user=$user password=
 $result = pg_query($postgre, "SELECT * FROM places");
 
 $arrayResult = pg_fetch_all($result);
-
-foreach($arrayResult as $arrayInterno) {
-    foreach($arrayInterno as $key => $value) {
-        echo "<h1>$Key -> $valor</h1>";
+$visited = [];
+$toVisit = [];
+for($i = 0; $i < count($arrayResult); $i++) {
+    if($arrayResult[$i]["visited"] === "t") {
+        array_push($visited, $arrayResult[$i]);
     }
 }
 
-var_dump(pg_fetch_all($result));
+var_dump($visited);
+
+//var_dump(pg_fetch_all($result));
 
 
 
