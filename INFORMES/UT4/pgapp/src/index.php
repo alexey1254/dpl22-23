@@ -27,7 +27,7 @@ $arrayResult = pg_fetch_all($result);
 
 for($i = 0; $i < sizeof($arrayResult); $i++) {
     for($j = 0; $j < sizeof($arrayResult[$i]); $j++) {
-        echo "<li>".$arrayResult[$i][$j]."</li>";
+        echo "<h1>".$arrayResult[$i][$j]."</h1>";
     }
 }
 
