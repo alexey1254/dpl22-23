@@ -25,9 +25,9 @@ $result = pg_query($postgre, "SELECT * FROM places");
 
 $arrayResult = pg_fetch_all($result);
 
-for($i = 0; $i < sizeof($arrayResult); $i++) {
-    for($j = 0; $j < sizeof($arrayResult[$i]); $j++) {
-        echo "<h1>".$arrayResult[$i][$j]."</h1>";
+foreach($arrayResult as $arrayInterno) {
+    foreach($arrayInterno as $valor) {
+        echo "<h1>$valor</h1>";
     }
 }
 
