@@ -1,3 +1,4 @@
+<?php require_once("./config.php");?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,11 +13,11 @@
 </body>
 </html>
 <?php
-$postgre = pg_connect("host=alu7396.arkania.es port=5432 dbname=travelroad user=travelroad_user password=dpl0000");
+$postgre = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 
 $result = pg_query($postgre, "SELECT * FROM places");
 
-var_dump(pg_fetch_all($result));
+echo "ppepee";
 
 
 
