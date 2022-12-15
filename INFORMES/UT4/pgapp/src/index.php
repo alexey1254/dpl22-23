@@ -31,7 +31,7 @@ foreach($arrayResult as $arrayInterno) {
     }
 }
 
-//var_dump(pg_fetch_all($result));
+var_dump(pg_fetch_all($result));
 
 
 
