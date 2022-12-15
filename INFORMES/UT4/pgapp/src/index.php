@@ -25,7 +25,13 @@ $result = pg_query($postgre, "SELECT * FROM places");
 
 $arrayResult = pg_fetch_all($result);
 
-var_dump(pg_fetch_all($result));
+for($i = 0; $i < sizeof($arrayResult); $i++) {
+    for($j = 0; $j < sizeof($arrayResult[$i]); $j++) {
+        echo $arrayResult[$i][$j];
+    }
+}
+
+//var_dump(pg_fetch_all($result));
 
 
 
