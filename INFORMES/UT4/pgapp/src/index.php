@@ -23,7 +23,9 @@ $postgre = pg_connect("host=$host port=$port dbname=$dbname user=$user password=
 
 $result = pg_query($postgre, "SELECT * FROM places");
 
-var_dump($result);
+$arrayResult = pg_fetch_all($result);
+
+var_dump(pg_fetch_all($result));
 
 
 
