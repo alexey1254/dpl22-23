@@ -160,3 +160,5 @@ sudo systemctl enable pgadmin
 [Source code](../pgapp/src/index.php)
 
 [Config.php](../pgapp/src/config.php)
+
+[Script de despliegue](../script.sh)
