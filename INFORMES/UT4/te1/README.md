@@ -1,8 +1,7 @@
 # UT4-TE1: Administración de servidores web (PostgreSQL)
 
-## **Breve resumen de lo realizado**
+## **Indice:**
 
-//
 
 ## **Instalación de PostgreSQL**
 
@@ -87,11 +86,7 @@ Para terminar, lanzamos el script de configuración con `pip install pgadmin4`
 
 Con todo esto, tenemos un servidor de desarrollo. Hasta aquí en la máquina virtual.
 
-- Para hacerlo en el servidor de producción, se hará lo hecho hasta aquí pero dentro del entorno virtual, escribimos lo siguiente `pip install gunicorn`
-
-//todo lo de  y le tuve q poner la version 3.9
-
-y ponerle un virtual host en Nginx
+- Para hacerlo en el servidor de producción, se hará lo hecho hasta aquí pero dentro del entorno virtual, escribimos lo siguiente `pip install gunicorn` y le ponemos un virtual host en Nginx
 
 ```yaml
 server {
@@ -136,5 +131,22 @@ sudo systemctl start pgadmin
 sudo systemctl enable pgadmin
 ```
 
-## **Configuración del entorno virtual**
+## **Resultado en entorno virtual**
 
+- PgAdmin
+
+![imgpgadmin](img/pgadmin.png)
+
+- Travelroad
+
+![imgtravelroad](img/travelroad.png)
+
+### **Direcciones:**
+
+[Travelroad](http://php.travelroad.alu7396.arkania.es/)
+
+[pgAdmin](http://pgadmin.alu7396.arkania.es)
+
+[Source code](../pgapp/src/index.php)
+
+[Config.php](../pgapp/src/config.php)
