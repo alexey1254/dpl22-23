@@ -2,6 +2,16 @@
 
 ## **Indice:**
 
+[Instalacion de postgre](#instalación-de-postgresql)
+
+[Instalacion de pgAdmin](#instalación-de-pgadmin)
+- [Demonizar pgAdmin](#hacemos-del-servicio-un-demonio)
+
+[Resultado en arkania](#resultado-en-entorno-virtual)
+
+[Recursos y enlaces](#direcciones)
+
+------------------
 
 ## **Instalación de PostgreSQL**
 
